@@ -14,6 +14,9 @@ app.set('views', './src/views');
 //Setup static assets
 app.use(express.static('./src/public'));
 
+//Setup body parser
+app.use(express.urlencoded());
+
 //Setup routes
 app.use(routes);
 
