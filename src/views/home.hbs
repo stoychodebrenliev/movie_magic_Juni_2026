@@ -3,18 +3,7 @@
                 <div class="band">
 
                     {{#each movies}}<!-- If there are posts for creature in the database display each of them -->
-                    <div class="flip flip-vertical">
-                        <div class="front">
-                            <img src="{{this.imageUrl}}"
-                                alt="{{this.title}}">
-                        </div>
-                        <div class="back">
-                            <h1>{{this.title}}</h1>
-                            <h2>Genre: {{this.genre}}</h2>
-                            <p>Description: {{this.description}}</p>
-                            <a href="/movies/{{id}}/details" class="details">Details</a>
-                        </div>
-                    </div>
+                    {{>movie}}
 
                     {{else}}
                      <div class="no-posts">
