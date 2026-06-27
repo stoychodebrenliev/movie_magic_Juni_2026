@@ -4,7 +4,9 @@ import movieService from '../services/movieService.js';
 const homeController = Router();
 
 homeController.get('/', async (req, res) => {
-  const movies = await movieService.getAll();
+  const filter = req.query;
+
+  const movies = await movieService.getAll(req.query);
  
   res.render('home', { movies });  
 });
