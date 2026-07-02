@@ -1,4 +1,5 @@
 import {  Router} from 'express';
+import artistService from '../services/artistService.js';
 
 const artistController = Router();
 
@@ -9,6 +10,8 @@ artistController.get('/create', async (req, res) => {
 
 artistController.post('/create', async (req, res) => {
     const artistData = req.body;
+
+    await artistService.create(artistData);
 
     res.redirect('/');
 });
