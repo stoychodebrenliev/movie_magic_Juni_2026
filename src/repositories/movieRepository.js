@@ -48,13 +48,7 @@ async function getById(movieId) {
 }
 
 async function create(movieData) {
-    movieData.id = uuid();
     
-    const db = await readDb();
-
-    db.movies.push(movieData);
-    
-    await writeDb(db);
 }
 
 const movieRepository = {
