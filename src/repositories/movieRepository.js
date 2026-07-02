@@ -1,5 +1,5 @@
 import fs from 'fs/promises';
-import {v4 as uuid} from 'uuid';
+import {prisma} from '../lib/prisma.js';
 
 
 
@@ -49,6 +49,10 @@ async function getById(movieId) {
 
 async function create(movieData) {
     
+    const movie = await prisma.movie.create({
+        data: movieData
+    });
+    return movie;
 }
 
 const movieRepository = {
