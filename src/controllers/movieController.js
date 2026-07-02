@@ -4,7 +4,7 @@ import movieService from "../services/movieService.js";
 const movieController = Router();
 
 movieController.get('/search', async (req, res) => {
-    const filter = req.search;
+    const filter = req.query;
     
     const movies = await movieService.getAll(filter);
     
@@ -28,7 +28,15 @@ movieController.get('/:movieId/details', async (req, res) => {
 
     const movie = await movieService.getById(movieId)
 
-    res.render('movies/details', { movie })
+    res.render('movies/details', { movie, pageTitle: 'Movie Details' });
 });
 
-export default movieController;
+movieController.get('/:movieId/attach', async (req, res) => {
+    const movieId = req.params.movieId;
+    const movie = await movieService.getById(movieId);
+    
+    res.render('artists/attach', { pageTitle: 'Attach Movie', movie });
+    });
+
+
+    export default movieController;
