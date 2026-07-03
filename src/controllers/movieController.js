@@ -34,7 +34,9 @@ movieController.get('/:movieId/details', async (req, res) => {
 movieController.get('/:movieId/attach', async (req, res) => {
     const movieId = req.params.movieId;
     const movie = await movieService.getById(movieId);
+
     
+
     res.render('artists/attach', { pageTitle: 'Attach Movie', movie });
     });
 
