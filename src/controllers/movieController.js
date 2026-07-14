@@ -29,10 +29,13 @@ movieController.post('/create', isAuth, async (req, res) => {
 
 movieController.get('/:movieId/details', async (req, res) => {
     const movieId = req.params.movieId
+    const userId = req.user?.id;
 
-    const movie = await movieService.getById(movieId)
+    const movie = await movieService.getById(movieId);
 
-    res.render('movies/details', { movie, pageTitle: 'Movie Details' });
+    const isOwner = movie.userId && movie.userId === userId;
+
+    res.render('movies/details', { movie, pageTitle: 'Movie Details', isOwner });
 });
 
 movieController.get('/:movieId/attach', isAuth, async (req, res) => {
