@@ -11,10 +11,13 @@ export async function register(userData) {
     return result;
 }
 
-const login = async ({ email, password }) => {
-    console.log(email, password);
-};
+export async function login(userData) {
+    const user = await userRepository.findByEmail(userData.email);
 
+    console.log(user);
+    
+};
+ 
 const authService = {
     register,
     login
