@@ -12,6 +12,7 @@ homeController.get('/', async (req, res) => {
 });
 
 homeController.get('/about', (req, res) => {
+  console.log(req.user);
   res.render('about');
 });
 
