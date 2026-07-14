@@ -58,11 +58,24 @@ async function attachArtist(movieId, artistId) {
         return result;
     }
 
+export async function remove(movieId, userId) {
+    const result = await prisma.movie.delete({
+        where: {
+            id: movieId,
+            userId: userId
+        }
+    });
+    
+    return result;
+
+}
+
 const movieRepository = {
     getAll,
     create,
     getById,
-    attachArtist
+    attachArtist,
+    remove
 }
 
 export default movieRepository;
