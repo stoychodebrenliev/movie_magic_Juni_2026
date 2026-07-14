@@ -1,13 +1,14 @@
 import { Router } from 'express';
 import authService from '../services/authService.js';
+import { isAuth, isGuest } from '../middlewares/authMiddleware.js';
 
 const authController = Router();
 
-authController.get('/register', (req, res) => {
+authController.get('/register', isGuest, (req, res) => {
   res.render('auth/register');
 });
 
-authController.post('/register', async (req, res) => {
+authController.post('/register', isGuest, async (req, res) => {
   const { email, password, repeatPassword } = req.body;
 
   await authService.register({ email, password, repeatPassword });
@@ -16,11 +17,11 @@ authController.post('/register', async (req, res) => {
 
 });
 
-authController.get('/login', (req, res) => {
+authController.get('/login', isGuest, (req, res) => {
   res.render('auth/login');
 });
 
-authController.post('/login', async (req, res) => {
+authController.post('/login', isGuest,  async (req, res) => {
   const { email, password } = req.body;
 
   
@@ -31,6 +32,11 @@ authController.post('/login', async (req, res) => {
 
   res.redirect('/')
 
+  });
+
+  authController.get('/logout', isAuth, (req, res) => {
+    res.clearCookie('auth');
+    res.redirect('/');
   });
 
 export default authController;

@@ -1,14 +1,15 @@
 import {  Router} from 'express';
 import artistService from '../services/artistService.js';
+import { isAuth } from '../middlewares/authMiddleware.js';
 
 const artistController = Router();
 
-artistController.get('/create', async (req, res) => {
+artistController.get('/create', isAuth, async (req, res) => {
 
     res.render('artists/create');
 });
 
-artistController.post('/create', async (req, res) => {
+artistController.post('/create', isAuth, async (req, res) => {
     const artistData = req.body;
 
     await artistService.create(artistData);
