@@ -11,8 +11,13 @@ export async function register(userData) {
     return result;
 }
 
+const login = async ({ email, password }) => {
+    console.log(email, password);
+};
+
 const authService = {
     register,
+    login
 };
 
 export default authService;
