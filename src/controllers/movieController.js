@@ -2,6 +2,9 @@ import { Router } from "express";
 import movieService from "../services/movieService.js";
 import artistService from "../services/artistService.js";
 import { isAuth } from "../middlewares/authMiddleware.js";
+import * as z from "zod";
+import { createMovieSchema } from "../schemas/movieSchema.js";
+import { prepareCategoryViewData } from "../utils/viewHelper.js";
 
 const movieController = Router();
 
@@ -14,18 +17,40 @@ movieController.get('/search', async (req, res) => {
 });
 
 movieController.get('/create', isAuth, (req, res) => {
-    res.render('movies/create');
+     const categoryOptions = prepareCategoryViewData();
+
+    res.render('movies/create', {
+        pageTitle: 'Create Movie',
+        categoryOptions
+    });
 });
 
 movieController.post('/create', isAuth, async (req, res) => {
     const newMovie = req.body;
     const userId = req.user.id;
 
+    try {
+        const movieData = createMovieSchema.parse(newMovie);
 
-    await movieService.create(newMovie, userId);
-    
-    res.redirect('/');
+        await movieService.create(movieData, userId);
+
+        res.redirect('/');
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            const errors = z.flattenError(error).fieldErrors;
+
+            const categoryOptions = prepareCategoryViewData(newMovie)
+
+            const firstError = Object.values(errors).flat().at(0);
+
+            res.status(400).render('movies/create', {movie: req.body, error: firstError, categoryOptions, pageTitle: 'Create Movie'})
+            
+        }
+
+    }
 });
+
+
 
 movieController.get('/:movieId/details', async (req, res) => {
     const movieId = req.params.movieId
