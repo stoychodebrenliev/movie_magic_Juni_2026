@@ -14,4 +14,14 @@ export const prepareCategoryViewData = (movie = {}) => [
         label: 'Movie',
         selected: movie.category === 'movie'
     },
+    {
+        value: 'documentary',
+        label: 'Documantary',
+        selected: movie.category === 'documentary'
+    },
+    {
+        value: 'short-film',
+        label: 'Short-Film',
+        selected: movie.category === 'short-film'
+    },
 ];
