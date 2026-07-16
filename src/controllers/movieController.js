@@ -43,7 +43,7 @@ movieController.post('/create', isAuth, async (req, res) => {
 
             const firstError = Object.values(errors).flat().at(0);
 
-            res.status(400).render('movies/create', {movie: req.body, error: firstError, categoryOptions, pageTitle: 'Create Movie'})
+            res.status(400).render('movies/create', {movie: req.body, errors, categoryOptions, pageTitle: 'Create Movie'})
             
         }
 
