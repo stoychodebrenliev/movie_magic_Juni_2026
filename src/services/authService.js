@@ -3,13 +3,11 @@ import jwt from "jsonwebtoken";
 import userRepository from "../repositories/userRepository.js";
 
 export async function register(userData) {
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    
-    const result = await userRepository.create({
-        ...userData,
-        password: hashedPassword
-    });
-    return result;
+    const createdUser = await userRepository.create(userData);
+
+    const token = generateAuthToken(createdUser);
+
+    return token;
 }
 
 export async function login(userData) {
@@ -18,12 +16,13 @@ export async function login(userData) {
     if (!user) {
         throw new Error('User not found');
     }
+    const isPasswordValid = await bcrypt.compare(userData.password, user.passowrd);
 
-    const isPasswordValid = await bcrypt.compare(userData.password, user.password);
-    
-    if (!isPasswordValid) {
-        throw new Error('Invalid password');
+    if(!isPasswordValid) {
+        throw new Error('Invalid password!')
     }
+
+    
      const payload = { id: user.id, email: user.email };
      
      const token = jwt.sign(payload, 'SECRETGOESHERE', { expiresIn: '1h' });
